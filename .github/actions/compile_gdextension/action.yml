@@ -76,14 +76,9 @@ runs:
     - name: Set up SCons
       shell: bash
       run: |
-        if [[ "${{inputs.platform}}" == "android" ]]; then
-          sudo apt update
-          sudo apt install -y scons
-        else
-          python -c "import sys; print(sys.version)"
-          python -m pip install scons
-          scons --version
-        fi
+        python -c "import sys; print(sys.version)"
+        python -m pip install scons
+        scons --version
 
     - name: (Windows) Prepare cross compilation
       shell: bash
