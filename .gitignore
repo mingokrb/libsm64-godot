@@ -43,3 +43,5 @@ export/
 
 # GDExtension generated files
 extension/src/gen/
+
+push.sh

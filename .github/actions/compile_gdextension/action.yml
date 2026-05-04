@@ -54,7 +54,9 @@ runs:
       run: |
         set +o pipefail
 
-        rm -rd $ANDROID_HOME/cmdline-tools/*
+        ls $ANDROID_HOME
+
+        #rm -rd $ANDROID_HOME/cmdline-tools/*
         wget https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
         unzip commandlinetools-linux-14742923_latest.zip
         mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
