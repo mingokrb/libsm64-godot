@@ -59,8 +59,8 @@ runs:
         mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
+        sdkmanager --list
         yes | sdkmanager --licenses # > /dev/null 2>&1
-        sdkmanager --list | grep "ndk"
         #sdkmanager --install "ndk;23.2.8568313"
 
     - name: (Web) Set up Emscripten
