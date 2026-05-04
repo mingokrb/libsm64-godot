@@ -54,8 +54,9 @@ runs:
       run: |
         set +o pipefail
 
-        export ANDROID_HOME=Android/Sdk
+        export ANDROID_HOME="$(realpath .)/Android/Sdk"
         mkdir -p $ANDROID_HOME/cmdline-tools
+        realpath $ANDROID_HOME
 
         wget https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
         unzip commandlinetools-linux-14742923_latest.zip
