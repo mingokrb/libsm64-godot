@@ -121,7 +121,7 @@ jobs:
         arch: [arm64]
         target: [template_debug, template_release]
 
-     steps:
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
