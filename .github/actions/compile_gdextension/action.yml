@@ -76,9 +76,14 @@ runs:
     - name: Set up SCons
       shell: bash
       run: |
-        python -c "import sys; print(sys.version)"
-        python -m pip install scons
-        scons --version
+        if [[ "${{inputs.platform}}" == "android" ]]; then
+          sudo apt update
+          sudo apt install -y scons
+        else
+          python -c "import sys; print(sys.version)"
+          python -m pip install scons
+          scons --version
+        fi
 
     - name: (Windows) Prepare cross compilation
       shell: bash
@@ -114,7 +119,7 @@ runs:
         cd extension
         scons platform=${{inputs.platform}} arch=${{inputs.arch}} target=${{inputs.target}} ${{inputs.additional}}
 
-    - name: (macOS) Resolve liniking
+    - name: (macOS) Resolve linking
       shell: bash
       if: inputs.platform == 'macos'
       run: |
