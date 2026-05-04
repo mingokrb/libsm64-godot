@@ -174,6 +174,7 @@ jobs:
         windows-gdextension,
         linux-gdextension,
         macos-gdextension,
+        android-gdextension,
         web-gdextension,
       ]
     permissions:
@@ -230,6 +231,12 @@ jobs:
           name: ${{ github.event.repository.name }}-demo.${{ env.ref_name }}.macos
           path: ${{ steps.demo_export.outputs.build_directory }}/macOS
 
+      - name: Upload Android demo
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-demo.${{ env.ref_name }}.android
+          path: ${{ steps.demo_export.outputs.build_directory }}/Android
+
       - name: Upload Web demo
         uses: actions/upload-artifact@v4
         with:
@@ -240,8 +247,9 @@ jobs:
         run: |
           cd ${{ steps.demo_export.outputs.archive_directory }}
           mv "Windows Desktop.zip" "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.windows.zip"
-          mv "macOS.zip"           "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.mac.zip"
           mv "LinuxX11.zip"        "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.linux.zip"
+          mv "macOS.zip"           "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.mac.zip"
+          mv "Android.zip"         "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.android.zip"
           mv "Web.zip"             "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.web.zip"
           mv "Web(PWA).zip"        "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.web.pwa.zip"
           mv "Web(nothreads).zip"  "${{ github.event.repository.name }}-demo.${{ env.ref_name }}.web.nothreads.zip"
@@ -288,13 +296,15 @@ jobs:
           ITCH_USER: brawmario
           ITCH_GAME: libsm64-godot-demo
           WINDOWS_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.windows.zip
-          MACOS_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.mac.zip
           LINUX_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.linux.zip
+          MACOS_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.mac.zip
+          ANDROID_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.android.zip
           WEB_ARCHIVE: ${{ steps.demo_export.outputs.archive_directory }}/${{ github.event.repository.name }}-demo.${{ env.ref_name }}.web.zip
         run: |
           butler push "${{ env.WINDOWS_ARCHIVE }}" ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:windows --userversion ${{ env.ref_name }}
-          butler push "${{ env.MACOS_ARCHIVE }}"   ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:mac     --userversion ${{ env.ref_name }}
           butler push "${{ env.LINUX_ARCHIVE }}"   ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:linux   --userversion ${{ env.ref_name }}
+          butler push "${{ env.MACOS_ARCHIVE }}"   ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:mac     --userversion ${{ env.ref_name }}
+          butler push "${{ env.ANDROID_ARCHIVE }}" ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:android --userversion ${{ env.ref_name }}
           butler push "${{ env.WEB_ARCHIVE }}"     ${{ env.ITCH_USER }}/${{ env.ITCH_GAME }}:web     --userversion ${{ env.ref_name }}
 
       - name: Deploy to Github Pages
