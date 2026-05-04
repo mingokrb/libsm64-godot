@@ -59,7 +59,7 @@ runs:
         mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
-        yes | sdkmanager --licenses > /dev/null 2>&1
+        yes | sdkmanager --licenses # > /dev/null 2>&1
         sdkmanager --list | grep "ndk"
         #sdkmanager --install "ndk;23.2.8568313"
 
