@@ -48,6 +48,14 @@ runs:
       if: inputs.platform == 'windows'
       uses: egor-tensin/setup-mingw@v2
 
+    - name: (Android) Set up Android SDK
+      if: inputs.platform == 'android'
+      run: |
+        sudo apt install android-sdk
+        mkdir -p Android/Sdk && export ANDROID_HOME=Android/Sdk
+        yes | sdkmanager --licenses
+        sdkmanager --install "ndk;r23c"
+
     - name: (Web) Set up Emscripten
       if: inputs.platform == 'web'
       uses: mymindstorm/setup-emsdk@v14
