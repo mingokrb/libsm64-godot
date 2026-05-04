@@ -111,6 +111,33 @@ jobs:
 
   # ============================================
 
+  android-gdextension:
+    name: 🤖 Android
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64]
+        target: [template_debug, template_release]
+
+     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Compile GDExtension
+        uses: ./.github/actions/compile_gdextension
+        with:
+          platform: android
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
+          artifact: ${{ github.event.repository.name }}-gdextension.android.${{ matrix.target }}.${{ matrix.arch }}
+          additional: lto=auto
+
+  # ============================================
+
   web-gdextension:
     name: 🕸 Web
     runs-on: ubuntu-latest
