@@ -52,13 +52,18 @@ runs:
       shell: bash
       if: inputs.platform == 'android'
       run: |
+        sudo apt update && sudo apt install which
         rm -rd $ANDROID_HOME/cmdline-tools/*
         wget https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
         unzip commandlinetools-linux-14742923_latest.zip
         mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
-        yes | sdkmanager --licenses &> /dev/null
+        ls -a $ANDROID_HOME
+        ls -a $ANDROID_HOME/cmdline-tools/latest/bin
+        which sdkmanager
+
+        yes | sdkmanager --licenses # &> /dev/null
         sdkmanager --install "ndk;23.2.8568313"
 
     - name: (Web) Set up Emscripten
